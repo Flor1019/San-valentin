@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Feliz San Valentín</title>
+
+<style>
+    body{
+        margin:0;
+        padding:0;
+        background:#2f4f45;
+        font-family:'Comic Sans MS', cursive;
+        color:#ffd966;
+        overflow:hidden;
+        text-align:center;
+    }
+
+    /* TITULO */
+    #titulo{
+        position:absolute;
+        top:20px;
+        width:100%;
+        font-size:36px;
+        z-index:5;
+        opacity:0;
+        animation:
+            aparecer 2s forwards,
+            desaparecer 2s forwards;
+        animation-delay: 0s, 10s;
+    }
+
+    /* MENSAJE */
+    #mensaje{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        font-size:26px;
+        line-height:1.5;
+        z-index:4;
+        opacity:0;
+        animation:
+            aparecer 3s forwards,
+            desaparecer 2s forwards;
+        animation-delay: 1s, 12s;
+    }
+
+    /* FRASE PRINCIPAL */
+    .frase-principal{
+        font-size:32px;
+        display:block;
+        margin-bottom:10px;
+    }
+
+    /* IMAGEN FINAL */
+    #imagen{
+        position:fixed;
+        top:0;
+        left:0;
+        width:100vw;
+        height:100vh;
+        background-image:url("pin.png");
+        background-repeat:no-repeat;
+        background-position:center;
+        background-size:contain;
+        opacity:0;
+        animation: mostrarImagen 3s forwards;
+        animation-delay:14s;
+        z-index:1;
+    }
+
+    /* CORAZONES */
+    .corazon{
+        position:absolute;
+        font-size:18px;
+        animation: flotar 6s linear infinite;
+        opacity:.8;
+        z-index:10;
+    }
+
+    @keyframes aparecer{
+        to{opacity:1;}
+    }
+
+    @keyframes desaparecer{
+        to{opacity:0;}
+    }
+
+    @keyframes mostrarImagen{
+        to{opacity:1;}
+    }
+
+    @keyframes flotar{
+        0%{transform:translateY(100vh);opacity:0;}
+        50%{opacity:1;}
+        100%{transform:translateY(-10vh);opacity:0;}
+    }
+</style>
+</head>
+
+<body>
+
+<!-- TITULO -->
+<div id="titulo">
+💛 Feliz San Valentín chiquito 💛
+</div>
+
+<!-- MENSAJE -->
+<div id="mensaje">
+<span class="frase-principal">
+Tal vez yo no sepa dónde ir,
+</span>
+pero si pudiera una mañana<br>
+abrir los ojos y ver los tuyos,<br>
+sabría dónde quedarme.<br><br>
+Gracias por ser mi persona favorita
+</div>
+
+<!-- IMAGEN -->
+<div id="imagen"></div>
+
+<!-- MUSICA -->
+<audio id="musica" loop>
+    <source src="cancion.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // corazones
+    function crearCorazon(){
+        const c = document.createElement("div");
+        c.className = "corazon";
+        c.innerHTML = "💛";
+        c.style.left = Math.random()*100 + "vw";
+        c.style.animationDuration = (Math.random()*3 + 4) + "s";
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),6000);
+    }
+    setInterval(crearCorazon,400);
+
+    // música (requiere interacción)
+    document.body.addEventListener("click",()=>{
+        document.getElementById("musica").play();
+    },{once:true});
+</script>
+
+</body>
+</html>
+
+
