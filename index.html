@@ -2,149 +2,211 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Feliz San Valentín</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Mi Persona Favorita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
 
-<style>
-    body{
-        margin:0;
-        padding:0;
-        background:#2f4f45;
-        font-family:'Comic Sans MS', cursive;
-        color:#ffd966;
-        overflow:hidden;
-        text-align:center;
-    }
+    <style>
+        :root {
+            --color-oro: #ffd966;
+            --color-fondo: #1a2e28;
+            --sombra-neon: 0 0 15px rgba(255, 217, 102, 0.7);
+        }
 
-    /* TITULO */
-    #titulo{
-        position:absolute;
-        top:20px;
-        width:100%;
-        font-size:36px;
-        z-index:5;
-        opacity:0;
-        animation:
-            aparecer 2s forwards,
-            desaparecer 2s forwards;
-        animation-delay: 0s, 10s;
-    }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background: radial-gradient(circle at center, #2f4f45 0%, #101d19 100%);
+            color: var(--color-oro);
+            font-family: 'Quicksand', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            perspective: 1000px;
+        }
 
-    /* MENSAJE */
-    #mensaje{
-        position:absolute;
-        top:50%;
-        left:50%;
-        transform:translate(-50%,-50%);
-        font-size:26px;
-        line-height:1.5;
-        z-index:4;
-        opacity:0;
-        animation:
-            aparecer 3s forwards,
-            desaparecer 2s forwards;
-        animation-delay: 1s, 12s;
-    }
+        /* CAPA DE ESTRELLAS/POLVO */
+        #particulas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-    /* FRASE PRINCIPAL */
-    .frase-principal{
-        font-size:32px;
-        display:block;
-        margin-bottom:10px;
-    }
+        /* CONTENEDOR DE TEXTO ESTILO CRISTAL */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 217, 102, 0.2);
+            padding: 30px 20px;
+            border-radius: 20px;
+            z-index: 10;
+            width: 85%;
+            max-width: 350px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            opacity: 0;
+            animation: entradaEpica 14s forwards;
+            animation-delay: 0.5s;
+        }
 
-    /* IMAGEN FINAL */
-    #imagen{
-        position:fixed;
-        top:0;
-        left:0;
-        width:100vw;
-        height:100vh;
-        background-image:url("pin.png");
-        background-repeat:no-repeat;
-        background-position:center;
-        background-size:contain;
-        opacity:0;
-        animation: mostrarImagen 3s forwards;
-        animation-delay:14s;
-        z-index:1;
-    }
+        #titulo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            text-shadow: var(--sombra-neon);
+        }
 
-    /* CORAZONES */
-    .corazon{
-        position:absolute;
-        font-size:18px;
-        animation: flotar 6s linear infinite;
-        opacity:.8;
-        z-index:10;
-    }
+        #mensaje {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
 
-    @keyframes aparecer{
-        to{opacity:1;}
-    }
+        .resaltado {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            color: #fff;
+        }
 
-    @keyframes desaparecer{
-        to{opacity:0;}
-    }
+        /* IMAGEN FINAL CON EFECTO ZOOM */
+        #imagen-final {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 90%;
+            height: 80vh;
+            background: url("pin.png") no-repeat center center / contain;
+            opacity: 0;
+            z-index: 5;
+            animation: aparicionImagen 4s forwards, latido 4s infinite alternate;
+            animation-delay: 15s;
+        }
 
-    @keyframes mostrarImagen{
-        to{opacity:1;}
-    }
+        /* CORAZONES */
+        .corazon {
+            position: absolute;
+            pointer-events: none;
+            z-index: 2;
+            filter: drop-shadow(var(--sombra-neon));
+        }
 
-    @keyframes flotar{
-        0%{transform:translateY(100vh);opacity:0;}
-        50%{opacity:1;}
-        100%{transform:translateY(-10vh);opacity:0;}
-    }
-</style>
+        /* ANIMACIONES */
+        @keyframes entradaEpica {
+            0% { opacity: 0; transform: translateY(30px) scale(0.9); }
+            10% { opacity: 1; transform: translateY(0) scale(1); }
+            90% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-30px) scale(1.1); }
+        }
+
+        @keyframes aparicionImagen {
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes latido {
+            from { transform: translate(-50%, -50%) scale(1); }
+            to { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        @keyframes flotarVertical {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* OVERLAY INICIAL */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #101d19;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .btn-play {
+            font-size: 50px;
+            filter: drop-shadow(var(--sombra-neon));
+            animation: latido 1s infinite alternate;
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- TITULO -->
-<div id="titulo">
-💛 Feliz San Valentín chiquito 💛
-</div>
+    <div id="overlay">
+        <div class="btn-play">💛</div>
+        <p style="margin-top:20px; letter-spacing: 2px;">TOCA PARA EMPEZAR</p>
+    </div>
 
-<!-- MENSAJE -->
-<div id="mensaje">
-<span class="frase-principal">
-Tal vez yo no sepa dónde ir,
-</span>
-pero si pudiera una mañana<br>
-abrir los ojos y ver los tuyos,<br>
-sabría dónde quedarme.<br><br>
-Gracias por ser mi persona favorita
-</div>
+    <div id="particulas"></div>
 
-<!-- IMAGEN -->
-<div id="imagen"></div>
+    <div class="glass-card">
+        <h1 id="titulo">Feliz San Valentín</h1>
+        <div id="mensaje">
+            <span class="resaltado">Tal vez yo no sepa dónde ir,</span>
+            pero si pudiera una mañana<br>
+            abrir los ojos y ver los tuyos,<br>
+            sabría dónde quedarme.<br><br>
+            <strong>Gracias por ser mi persona favorita</strong>
+        </div>
+    </div>
 
-<!-- MUSICA -->
-<audio id="musica" loop>
-    <source src="cancion.mp3" type="audio/mpeg">
-</audio>
+    <div id="imagen-final"></div>
 
-<script>
-    // corazones
-    function crearCorazon(){
-        const c = document.createElement("div");
-        c.className = "corazon";
-        c.innerHTML = "💛";
-        c.style.left = Math.random()*100 + "vw";
-        c.style.animationDuration = (Math.random()*3 + 4) + "s";
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),6000);
-    }
-    setInterval(crearCorazon,400);
+    <audio id="musica" loop>
+        <source src="cancion.mp3" type="audio/mpeg">
+    </audio>
 
-    // música (requiere interacción)
-    document.body.addEventListener("click",()=>{
-        document.getElementById("musica").play();
-    },{once:true});
-</script>
+    <script>
+        const particulasContenedor = document.getElementById('particulas');
 
+        // Crear polvillo estelar de fondo
+        function crearEstrellas() {
+            for(let i=0; i<50; i++) {
+                const estrella = document.createElement('div');
+                estrella.style.position = 'absolute';
+                estrella.style.width = '2px';
+                estrella.style.height = '2px';
+                estrella.style.background = '#ffd966';
+                estrella.style.borderRadius = '50%';
+                estrella.style.top = Math.random() * 100 + 'vh';
+                estrella.style.left = Math.random() * 100 + 'vw';
+                estrella.style.opacity = Math.random();
+                estrella.style.animation = `aparecer ${Math.random()*3+2}s infinite alternate`;
+                particulasContenedor.appendChild(estrella);
+            }
+        }
+
+        function crearCorazon() {
+            const c = document.createElement("div");
+            c.className = "corazon";
+            c.innerHTML = "💛";
+            c.style.left = Math.random() * 100 + "vw";
+            c.style.fontSize = (Math.random() * 15 + 10) + "px";
+            c.style.animation = `flotarVertical ${(Math.random() * 5 + 7)}s linear infinite`;
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 10000);
+        }
+
+        // Iniciar todo al hacer click
+        document.getElementById('overlay').addEventListener('click', () => {
+            document.getElementById('musica').play();
+            document.getElementById('overlay').style.transition = 'opacity 1s';
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('overlay').remove();
+                crearEstrellas();
+                setInterval(crearCorazon, 400);
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
-
-
